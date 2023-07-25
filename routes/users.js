@@ -26,7 +26,7 @@ let users = [
 // GET request: Retrieve all users
 router.get("/",(req,res)=>{
   // Copy the code here
-  res.send(users)//This line is to be replaced with actual return value
+  res.send(JSON.stringify({users}, null, 4))//This line is to be replaced with actual return value
 });
 
 // GET by specific ID request: Retrieve a single user with email ID
@@ -43,7 +43,7 @@ router.post("/",(req,res)=>{
   // Copy the code here
   const new_user = {'firstName': req.query.firstName, 'lastName': req.query.lastName, 'email': req.query.email, 'DOB': req.query.DOB}
   users.push(new_user)
-  res.send("The user" + (' ') + new_user.firstName + "has been added!")//This line is to be replaced with actual return value
+  res.send("The user" + ' ' + new_user.firstName + " has been added!")//This line is to be replaced with actual return value
 });
 
 
@@ -87,7 +87,9 @@ router.put("/:email", (req, res) => {
 // DELETE request: Delete a user by email ID
 router.delete("/:email", (req, res) => {
   // Copy the code here
-  res.send("Yet to be implemented")//This line is to be replaced with actual return value
+  const email = req.params.email
+  users = users.filter((user) => user.email != email)
+  res.send(`User with the email ${email} deleted!`)//This line is to be replaced with actual return value
 });
 
 module.exports=router;
