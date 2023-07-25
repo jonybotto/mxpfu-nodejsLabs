@@ -37,6 +37,26 @@ router.get("/:email",(req,res)=>{
   res.send(filtered_user)//This line is to be replaced with actual return value
 });
 
+router.get("/lastName/:lastName", (req, res) => {
+    let lastName = req.params.lastName
+    const filtered_users = users.filter((user) => lastName === user.lastName)
+    res.send(filtered_users)
+})
+
+function getDateFromString(strDate) {
+    let [dd,mm,yyyy] = strDate.split('-')
+    return new Date(yyyy+"/"+mm+"/"+dd);
+}
+    
+// console.log(sorted_users);
+router.get("/sort",(req,res)=>{
+    let sorted_users=users.sort(function(a, b) {
+        let d1 = getDateFromString(a.DOB);
+        let d2 = getDateFromString(b.DOB);
+            return d1-d2;
+          });
+    res.send(sorted_users);
+});
 
 // POST request: Create a new user
 router.post("/",(req,res)=>{
@@ -82,7 +102,6 @@ router.put("/:email", (req, res) => {
         res.send("Unable to find user!");//This line is to be replaced with actual return value
     }
 })
-
 
 // DELETE request: Delete a user by email ID
 router.delete("/:email", (req, res) => {
